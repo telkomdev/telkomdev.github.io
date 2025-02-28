@@ -23,7 +23,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 90%;
-            max-width: 500px;
+            max-width: 900px;
             text-align: center;
         }
 
@@ -148,8 +148,58 @@
 
       <h3>Decrypted Output:</h3>
       <p id="output"></p>
+      
+      <h3>Hash-based message authentication code (or HMAC)</h3>
+      
+      <label for="hmacModeSelect">Select HASH function:</label>
+      <select id="hmacModeSelect">
+          <option value="sha1">SHA1</option>
+          <option value="sha256">SHA256</option>
+          <option value="sha384">SHA384</option>
+          <option value="sha512">SHA512</option>
+      </select>
+
+      <label for="keyInput">Enter HMAC Key:</label>
+      <input type="text" id="hmacKeyInput" placeholder="Enter 32-byte key">
+
+      <label for="dataInput">Enter Data to Encrypt:</label>
+      <input type="text" id="hmacDataInput" placeholder="Enter text to encrypt">
+
+      <button onclick="hmacData()">Hash</button>
+
+      <h3>HMAC Output:</h3>
+      <p id="hmacOutput"></p>
+
 
       <script>
+          async function hmacData() {
+              const key = document.getElementById("hmacKeyInput").value;
+              const data = document.getElementById("hmacDataInput").value;
+              const mode = document.getElementById("hmacModeSelect").value;
+
+              try {
+                  let hmacOutput;
+                  switch(mode) {
+                    case "sha1":
+                      hmacOutput = await crypsi.hmac.sha1(key, data);
+                      break;
+                    case "sha256":
+                      hmacOutput = await crypsi.hmac.sha256(key, data);
+                      break;
+                    case "sha384":
+                      hmacOutput = await crypsi.hmac.sha384(key, data);
+                      break;
+                    case "sha512":
+                      hmacOutput = await crypsi.hmac.sha512(key, data);
+                      break;
+                  }
+
+                  document.getElementById("hmacOutput").innerText = hmacOutput;
+              } catch (error) {
+                  document.getElementById("hmacOutput").innerText = "HMAC failed: " + error.message;
+              }
+          }
+        
           async function encryptData() {
               const key = document.getElementById("keyInput").value;
               const data = document.getElementById("dataInput").value;
