@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypsi Crypto Library Ecosystem</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypsi.js@1.0.1/dist/crypsi.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 50%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h3 {
+            margin-top: 20px;
+            color: #444;
+        }
+
+        p {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 20px;
+            word-break: break-word;
+        }
+      
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        ul li {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 5px solid #007bff;
+            transition: background 0.3s ease;
+        }
+
+        ul li:hover {
+            background: #e2e6ea;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3>Crypsi Crypto Library Ecosystem</h3>
+        <p>https://github.com/telkomdev/crypsi.js</p>
+        CrypsiJs is compatible with each other with the following server side libraries
+      <ul>
+        <li><a href="https://github.com/telkomdev/c-crypsi" target="blank">C/C++</a></li>
+        <li><a href="https://github.com/telkomdev/go-crypsi" target="blank">Golang</a></li>
+        <li><a href="https://github.com/telkomdev/pycrypsi" target="blank">Python</a></li>
+        <li><a href="https://github.com/telkomdev/crypsi" target="blank">NodeJs</a></li>
+        <li><a href="https://github.com/telkomdev/NetCrypsi" target="blank">C# (.NET)</a></li>
+        <li><a href="https://github.com/telkomdev/jcrypsi" target="blank">Java/JVM</a></li>
+        <li><a href="https://github.com/telkomdev/c-crypsi" target="blank">C/C++</a></li>
+        <li><a href="https://github.com/telkomdev/pgcrypsi" target="blank">PostgreSQL</a></li>
+        <li><a href="https://github.com/telkomdev/crypsi-mysql-udf" target="blank">MySQL/MariDB</a></li>
+      </ul>
+      
+        <h3>AES Encryption Demo</h3>
+
+      <label for="modeSelect">Select Encryption Mode:</label>
+      <select id="modeSelect">
+          <option value="cbc">AES-256-CBC</option>
+          <option value="gcm">AES-256-GCM</option>
+      </select>
+
+      <label for="keyInput">Enter AES Key:</label>
+      <input type="text" id="keyInput" placeholder="Enter 32-byte key">
+
+      <label for="dataInput">Enter Data to Encrypt:</label>
+      <input type="text" id="dataInput" placeholder="Enter text to encrypt">
+
+      <button onclick="encryptData()">Encrypt</button>
+
+      <h3>Encrypted Output:</h3>
+      <p id="encryptedOutput"></p>
+
+      <label for="encryptedDataInput">Enter Encrypted Data:</label>
+      <input type="text" id="encryptedDataInput" placeholder="Enter encrypted text">
+
+      <button onclick="decryptData()">Decrypt</button>
+
+      <h3>Decrypted Output:</h3>
+      <p id="output"></p>
+
+      <script>
+          async function encryptData() {
+              const key = document.getElementById("keyInput").value;
+              const data = document.getElementById("dataInput").value;
+              const mode = document.getElementById("modeSelect").value;
+
+              try {
+                  let encryptedData;
+                  if (mode === "cbc") {
+                      encryptedData = await crypsi.aes.encryptWithAes256Cbc(key, data);
+                  } else {
+                      encryptedData = await crypsi.aes.encryptWithAes256Gcm(key, data);
+                  }
+                  document.getElementById("encryptedOutput").innerText = encryptedData;
+              } catch (error) {
+                  document.getElementById("encryptedOutput").innerText = "Encryption failed: " + error.message;
+              }
+          }
+
+          async function decryptData() {
+              const key = document.getElementById("keyInput").value;
+              const encryptedData = document.getElementById("encryptedDataInput").value;
+              const mode = document.getElementById("modeSelect").value;
+              const decoder = new TextDecoder();
+
+              try {
+                  let decryptedData;
+                  if (mode === "cbc") {
+                      decryptedData = await crypsi.aes.decryptWithAes256Cbc(key, encryptedData);
+                  } else {
+                      decryptedData = await crypsi.aes.decryptWithAes256Gcm(key, encryptedData);
+                  }
+                  document.getElementById("output").innerText = decoder.decode(decryptedData);
+              } catch (error) {
+                  document.getElementById("output").innerText = "Decryption failed: " + error.message;
+              }
+          }
+      </script>
+
+</body>
+</html>
