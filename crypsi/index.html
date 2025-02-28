@@ -12,7 +12,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh; /* Allows scrolling if content exceeds viewport */
+            overflow-y: auto;  /* Enables vertical scrolling */
             margin: 0;
         }
 
